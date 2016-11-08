@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FutureStack.Views;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FutureStack.Controllers
@@ -17,7 +18,7 @@ namespace FutureStack.Controllers
         }
 
         // GET api/todos/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetTodo")]
         public string Get(int id)
         {
             return "value";
@@ -25,9 +26,9 @@ namespace FutureStack.Controllers
 
         // POST api/todos
         [HttpPost]
-        public string Post([FromBody]string todo)
+        public IActionResult Post([FromBody]TodoView todo)
         {
-            return todo;
+            return new CreatedAtRouteResult("GetTodo", new { id = 1 }, todo);
         }
 
         // PUT api/todos/5
