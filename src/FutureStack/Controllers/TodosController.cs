@@ -13,7 +13,7 @@ namespace FutureStack.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[0];
         }
 
         // GET api/todos/5
@@ -25,13 +25,20 @@ namespace FutureStack.Controllers
 
         // POST api/todos
         [HttpPost]
-        public void Post([FromBody]string value)
+        public string Post([FromBody]string todo)
         {
+            return todo;
         }
 
         // PUT api/todos/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]string todo)
+        {
+        }
+
+        // DELETE api/todos/
+        [HttpDelete]
+        public void DeleteAll(int id)
         {
         }
 
