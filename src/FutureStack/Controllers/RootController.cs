@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace FutureStack.Controllers
 {
+    [Route("/")]
     [Route("api")]
     public class RootController : Controller
     {
-        // GET: api/values
         [HttpGet]
-        public string Get()
+        public string Index()
         {
-            return "Alive and kicking";
+            return "Hello yiannis";
         }
 
     }
