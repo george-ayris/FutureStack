@@ -31,9 +31,10 @@ namespace FutureStack.Api.Controllers
 
         // GET api/todos/5
         [HttpGet("{id}", Name = "GetTodo")]
-        public string Get(int id)
+        public TodoView Get(Guid id)
         {
-            return "value";
+            var todo = _todosReader.GetTodo(id);
+            return new TodoView { Title = todo.Title };
         }
 
         // POST api/todos

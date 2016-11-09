@@ -18,9 +18,24 @@ namespace FutureStack.Persistance
             _savedTodos.Add(todo.Id, todo);
         }
 
+        public Todo GetTodo(Guid id)
+        {
+            return _savedTodos[id];
+        }
+
         public IEnumerable<Todo> GetAllTodos()
         {
             return _savedTodos.Values;
+        }
+
+        public void DeleteTodo(Guid id)
+        {
+            _savedTodos.Remove(id);
+        }
+
+        public void DeleteAllTodos()
+        {
+            _savedTodos.Clear();
         }
     }
 }

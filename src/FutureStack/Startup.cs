@@ -70,8 +70,11 @@ namespace FutureStack.Api
 
             _container.Register<IWriteTodos, WriteTodosAppServiceDelegator>(Lifestyle.Scoped);
             _container.Register<ICreateTodos, CreateTodosAppService>(Lifestyle.Scoped);
+            _container.Register<IDeleteTodos, DeleteTodosAppService>(Lifestyle.Scoped);
+            _container.Register<IDeleteAllTodos, DeleteAllTodosAppService>(Lifestyle.Scoped);
             _container.Register<IReadTodos, ReadTodosQueryDelegetor>(Lifestyle.Scoped);
             _container.Register<IGetAllTodos, GetAllTodosQuery>(Lifestyle.Scoped);
+            _container.Register<IGetTodos, GetTodoQuery>(Lifestyle.Scoped);
             _container.Register<ITodoRepository, TodoRepository>(Lifestyle.Singleton);
 
             // Cross-wire ASP.NET services (if any). For instance:
