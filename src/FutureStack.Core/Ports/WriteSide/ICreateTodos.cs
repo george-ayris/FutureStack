@@ -2,7 +2,7 @@ using System;
 using FutureStack.Core.Adaptors.Repositories;
 using FutureStack.Core.Model;
 
-namespace FutureStack.Core.Ports
+namespace FutureStack.Core.Ports.WriteSide
 {
     public interface ICreateTodos
     {

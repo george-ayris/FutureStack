@@ -1,4 +1,5 @@
-﻿using FutureStack.Core.Ports;
+﻿using FutureStack.Core.Ports.WriteSide;
+using FutureStack.Core.Ports.ReadSide;
 using FutureStack.Core.Adaptors.Repositories;
 using FutureStack.Persistance;
 using Microsoft.AspNetCore.Builder;
@@ -67,8 +68,10 @@ namespace FutureStack.Api
             _container.RegisterMvcControllers(app);
             _container.RegisterMvcViewComponents(app);
 
-            _container.Register<ITodosPort, TodosAppServiceDelegator>(Lifestyle.Scoped);
+            _container.Register<IWriteTodos, WriteTodosAppServiceDelegator>(Lifestyle.Scoped);
             _container.Register<ICreateTodos, CreateTodosAppService>(Lifestyle.Scoped);
+            _container.Register<IReadTodos, ReadTodosQueryDelegetor>(Lifestyle.Scoped);
+            _container.Register<IGetAllTodos, GetAllTodosQuery>(Lifestyle.Scoped);
             _container.Register<ITodoRepository, TodoRepository>(Lifestyle.Singleton);
 
             // Cross-wire ASP.NET services (if any). For instance:

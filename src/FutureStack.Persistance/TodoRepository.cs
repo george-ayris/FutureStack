@@ -17,5 +17,10 @@ namespace FutureStack.Persistance
         {
             _savedTodos.Add(todo.Id, todo);
         }
+
+        public IEnumerable<Todo> GetAllTodos()
+        {
+            return _savedTodos.Values;
+        }
     }
 }

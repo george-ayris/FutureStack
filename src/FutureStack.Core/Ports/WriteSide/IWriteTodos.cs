@@ -1,17 +1,17 @@
 ﻿using System;
 
-namespace FutureStack.Core.Ports
+namespace FutureStack.Core.Ports.WriteSide
 {
-    public interface ITodosPort : ICreateTodos
+    public interface IWriteTodos : ICreateTodos
     {
         
     }
 
-    public class TodosAppServiceDelegator : ITodosPort
+    public class WriteTodosAppServiceDelegator : IWriteTodos
     {
         private readonly ICreateTodos _createTodosService;
 
-        public TodosAppServiceDelegator(ICreateTodos createTodosService)
+        public WriteTodosAppServiceDelegator(ICreateTodos createTodosService)
         {
             _createTodosService = createTodosService;
         }
