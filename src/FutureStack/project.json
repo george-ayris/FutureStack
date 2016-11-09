@@ -1,4 +1,4 @@
-﻿{
+{
   "dependencies": {
     "Microsoft.NETCore.App": {
       "version": "1.0.1",
@@ -15,7 +15,12 @@
     "Microsoft.Extensions.Logging": "1.0.0",
     "Microsoft.Extensions.Logging.Console": "1.0.0",
     "Microsoft.Extensions.Logging.Debug": "1.0.0",
-    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0"
+    "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
+    "SimpleInjector": "3.2.7",
+    "SimpleInjector.Integration.AspNetCore.Mvc": "3.2.3",
+    "FutureStack.Core": "1.0.0-*",
+    "Microsoft.AspNetCore.Mvc.Core": "1.0.1",
+    "FutureStack.Persistance": "1.0.0-*"
   },
 
   "tools": {

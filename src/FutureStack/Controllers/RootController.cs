@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace FutureStack.Controllers
+namespace FutureStack.Api.Controllers
 {
     [Route("/")]
     [Route("api")]

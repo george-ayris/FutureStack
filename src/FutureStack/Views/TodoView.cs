@@ -1,4 +1,4 @@
-﻿namespace FutureStack.Views
+﻿namespace FutureStack.Api.Views
 {
     public class TodoView
     {

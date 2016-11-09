@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FutureStack.Views;
 using Microsoft.AspNetCore.Mvc;
+using FutureStack.Api.Views;
+using FutureStack.Core.Ports;
 
-namespace FutureStack.Controllers
+namespace FutureStack.Api.Controllers
 {
     [Route("api/[controller]")]
     public class TodosController : Controller
     {
+        private readonly ITodosPort _todosPort;
+
+        public TodosController(ITodosPort todosPort)
+        {
+            _todosPort = todosPort;
+        }
+
         // GET api/todos
         [HttpGet]
         public IEnumerable<string> Get()
@@ -28,7 +34,9 @@ namespace FutureStack.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]TodoView todo)
         {
-            return new CreatedAtRouteResult("GetTodo", new { id = 1 }, todo);
+            var id = Guid.NewGuid();
+            _todosPort.CreateTodo(id, todo.Title);
+            return new CreatedAtRouteResult("GetTodo", new { id }, todo);
         }
 
         // PUT api/todos/5
