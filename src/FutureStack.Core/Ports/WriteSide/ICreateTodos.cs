@@ -6,7 +6,7 @@ namespace FutureStack.Core.Ports.WriteSide
 {
     public interface ICreateTodos
     {
-        void CreateTodo(Guid id, string title);
+        Todo CreateTodo(Guid id, string title);
     }
 
     public class CreateTodosAppService : ICreateTodos
@@ -18,9 +18,11 @@ namespace FutureStack.Core.Ports.WriteSide
             _todoRepository = todoRepository;
         }
 
-        public void CreateTodo(Guid id, string title)
+        public Todo CreateTodo(Guid id, string title)
         {
-            _todoRepository.SaveTodo(new Todo(id, title));
+            var todo = new Todo(id, title);
+            _todoRepository.SaveTodo(todo);
+            return todo;
         }
     }
 }

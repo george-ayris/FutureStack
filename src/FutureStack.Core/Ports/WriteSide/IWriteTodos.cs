@@ -1,4 +1,5 @@
 ﻿using System;
+using FutureStack.Core.Model;
 
 namespace FutureStack.Core.Ports.WriteSide
 {
@@ -20,9 +21,9 @@ namespace FutureStack.Core.Ports.WriteSide
             _deleteAllTodosService = deleteAllTodosService;
         }
 
-        public void CreateTodo(Guid id, string title)
+        public Todo CreateTodo(Guid id, string title)
         {
-            _createTodosService.CreateTodo(id, title);
+            return _createTodosService.CreateTodo(id, title);
         }
 
         public void DeleteTodo(Guid id)

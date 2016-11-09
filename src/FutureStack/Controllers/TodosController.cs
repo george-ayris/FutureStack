@@ -5,6 +5,8 @@ using FutureStack.Api.Views;
 using FutureStack.Core.Ports.WriteSide;
 using FutureStack.Core.Ports.ReadSide;
 using System.Linq;
+using FutureStack.Core.Model;
+using Microsoft.AspNetCore.Routing;
 
 namespace FutureStack.Api.Controllers
 {
@@ -25,7 +27,7 @@ namespace FutureStack.Api.Controllers
         public IEnumerable<TodoView> Get()
         {
             var todos = _todosReader.GetAllTodos();
-            return todos.Select(t => new TodoView {Title = t.Title});
+            return todos.Select(RenderTodoView);
 
         }
 
@@ -34,7 +36,13 @@ namespace FutureStack.Api.Controllers
         public TodoView Get(Guid id)
         {
             var todo = _todosReader.GetTodo(id);
-            return new TodoView { Title = todo.Title };
+            return RenderTodoView(todo);
+        }
+
+        private TodoView RenderTodoView(Todo todo)
+        {
+            var url = Url.Link("GetTodo", new { id = todo.Id });
+            return new TodoView { Title = todo.Title, Completed = todo.Completed, Url = url };
         }
 
         // POST api/todos
@@ -42,8 +50,8 @@ namespace FutureStack.Api.Controllers
         public IActionResult Post([FromBody]TodoView todo)
         {
             var id = Guid.NewGuid();
-            _todosWriter.CreateTodo(id, todo.Title);
-            return new CreatedAtRouteResult("GetTodo", new { id }, todo);
+            var created = _todosWriter.CreateTodo(id, todo.Title);
+            return new CreatedAtRouteResult("GetTodo", new { id }, RenderTodoView(created));
         }
 
         // PUT api/todos/5
