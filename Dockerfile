@@ -8,5 +8,5 @@ RUN ["dotnet", "build", "./src/FutureStack.Api"]
 EXPOSE 5000/tcp
 ENV ASPNETCORE_URLS http://*:5000
  
-WORKDIR /app/src/FutureStack
+WORKDIR /app/src/FutureStack.Api
 ENTRYPOINT ["dotnet", "run"]
