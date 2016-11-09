@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using FutureStack.Core.Adaptors.Repositories;
 using FutureStack.Core.Model;
 
-namespace FutureStack.Persistance
+namespace FutureStack.Persistence
 {
     public class TodoRepository : ITodoRepository
     {

@@ -1,7 +1,7 @@
 ﻿using FutureStack.Core.Ports.WriteSide;
 using FutureStack.Core.Ports.ReadSide;
 using FutureStack.Core.Adaptors.Repositories;
-using FutureStack.Persistance;
+using FutureStack.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Controllers;
