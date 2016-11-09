@@ -54,14 +54,18 @@ namespace FutureStack.Api.Controllers
 
         // DELETE api/todos/
         [HttpDelete]
-        public void DeleteAll(int id)
+        public IActionResult DeleteAll()
         {
+            _todosWriter.DeleteAllTodos();
+            return NoContent();
         }
 
         // DELETE api/todos/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(Guid id)
         {
+            _todosWriter.DeleteTodo(id);
+            return NoContent();
         }
     }
 }
