@@ -1,4 +1,6 @@
-﻿using FutureStack.Core.Ports.WriteSide;
+﻿using System;
+using Consul;
+using FutureStack.Core.Ports.WriteSide;
 using FutureStack.Core.Ports.ReadSide;
 using FutureStack.Core.Adaptors.Repositories;
 using FutureStack.Persistence;
@@ -64,6 +66,11 @@ namespace FutureStack.Api
 
         private void InitializeContainer(IApplicationBuilder app)
         {
+            var client = new ConsulClient(c => c.Address = new Uri(Environment.GetEnvironmentVariable("CONSUL_URL")));
+            var key1 = System.Text.Encoding.UTF8.GetString(client.KV.Get("web/key1").Result.Response.Value);
+            var config = new Config(key1);
+            _container.Register<Config>(() => config, Lifestyle.Singleton);
+
             // Add application presentation components:
             _container.RegisterMvcControllers(app);
             _container.RegisterMvcViewComponents(app);

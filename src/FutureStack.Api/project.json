@@ -20,7 +20,8 @@
     "SimpleInjector.Integration.AspNetCore.Mvc": "3.2.3",
     "FutureStack.Core": "1.0.0-*",
     "Microsoft.AspNetCore.Mvc.Core": "1.0.1",
-    "FutureStack.Persistence": "1.0.0-*"
+    "FutureStack.Persistence": "1.0.0-*",
+    "Consul": "0.7.0.3"
   },
 
   "tools": {
