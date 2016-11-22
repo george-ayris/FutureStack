@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FutureStack.Core.Adaptors;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FutureStack.Api.Controllers
 {
@@ -6,9 +7,9 @@ namespace FutureStack.Api.Controllers
     [Route("api")]
     public class RootController : Controller
     {
-        private readonly Config _config;
+        private readonly IConfig _config;
 
-        public RootController(Config config)
+        public RootController(IConfig config)
         {
             _config = config;
         }

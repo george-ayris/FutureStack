@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Text;
+using System.Threading.Tasks;
 using Consul;
+using FutureStack.Core.Adaptors;
 using FutureStack.Core.Ports.WriteSide;
 using FutureStack.Core.Ports.ReadSide;
 using FutureStack.Core.Adaptors.Repositories;
@@ -66,10 +69,8 @@ namespace FutureStack.Api
 
         private void InitializeContainer(IApplicationBuilder app)
         {
-            var client = new ConsulClient(c => c.Address = new Uri(Environment.GetEnvironmentVariable("CONSUL_URL")));
-            var key1 = System.Text.Encoding.UTF8.GetString(client.KV.Get("web/key1").Result.Response.Value);
-            var config = new Config(key1);
-            _container.Register<Config>(() => config, Lifestyle.Singleton);
+            var config = GetConfig();
+            _container.Register<IConfig>(() => config, Lifestyle.Singleton);
 
             // Add application presentation components:
             _container.RegisterMvcControllers(app);
@@ -86,6 +87,23 @@ namespace FutureStack.Api
 
             // Cross-wire ASP.NET services (if any). For instance:
             //_container.RegisterSingleton(app.ApplicationServices.GetService<ILoggerFactory>());
+        }
+
+        private Config GetConfig()
+        {
+            var client = new ConsulClient(c => c.Address = new Uri(Environment.GetEnvironmentVariable("CONSUL_URL")));
+            var key1Task = client.KV.Get("web/key1");
+            var connectionStringTask = client.KV.Get("web/sqlConnectionString");
+            Task.WaitAll(key1Task, connectionStringTask);
+
+            var key1 = Encoding.UTF8.GetString(key1Task.Result.Response.Value);
+
+            var connectionFormatString = Encoding.UTF8.GetString(connectionStringTask.Result.Response.Value);
+            var sqlUserName = Environment.GetEnvironmentVariable("SQL_USERNAME");
+            var sqlPassword = Environment.GetEnvironmentVariable("SQL_PASSWORD");
+            var connectionString = string.Format(connectionFormatString, sqlUserName, sqlPassword);
+
+            return new Config(key1, connectionString);
         }
     }
 }

@@ -8,10 +8,10 @@ namespace FutureStack.Core.Model
         public string Title { get; }
         public bool Completed { get; }
 
-        public Todo(Guid id, string title)
+        public Todo(Guid id, string title, bool completed = false)
         {
             Title = title;
-            Completed = false;
+            Completed = completed;
             Id = id;
         }
     }
