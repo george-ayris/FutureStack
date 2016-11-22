@@ -28,7 +28,7 @@ namespace FutureStack.Persistence
                 conn.Execute(@"
                     INSERT INTO [dbo].[Todo]
                            (TodoId, Title, Completed)
-                    VALUES (@Id, @Title, @Completed", todo);
+                    VALUES (@Id, @Title, @Completed)", todo);
             }
         }
 
@@ -41,7 +41,7 @@ namespace FutureStack.Persistence
                 return conn.Query<Todo>(@"
                     SELECT TodoId AS Id, Title, Completed
                     FROM [dbo].[Todo]
-                    WHERE Id = @Id", new { Id = id }).SingleOrDefault();
+                    WHERE TodoId = @Id", new { Id = id }).SingleOrDefault();
             }
         }
 
