@@ -21,12 +21,28 @@ namespace FutureStack.Persistence
 
         public void SaveTodo(Todo todo)
         {
-            _savedTodos.Add(todo.Id, todo);
+            using (var conn = new SqlConnection(_config.ConnectionString))
+            {
+                conn.Open();
+
+                conn.Execute(@"
+                    INSERT INTO [dbo].[Todo]
+                           (TodoId, Title, Completed)
+                    VALUES (@Id, @Title, @Completed", todo);
+            }
         }
 
         public Todo GetTodo(Guid id)
         {
-            return _savedTodos[id];
+            using (var conn = new SqlConnection(_config.ConnectionString))
+            {
+                conn.Open();
+
+                return conn.Query<Todo>(@"
+                    SELECT TodoId AS Id, Title, Completed
+                    FROM [dbo].[Todo]
+                    WHERE Id = @Id", new { Id = id }).SingleOrDefault();
+            }
         }
 
         public IEnumerable<Todo> GetAllTodos()
@@ -43,12 +59,25 @@ namespace FutureStack.Persistence
 
         public void DeleteTodo(Guid id)
         {
-            _savedTodos.Remove(id);
+            using (var conn = new SqlConnection(_config.ConnectionString))
+            {
+                conn.Open();
+
+                conn.Execute(@"
+                    DELETE FROM [dbo].[Todo]
+                    WHERE TodoId = @Id", new {Id = id});
+            }
         }
 
         public void DeleteAllTodos()
         {
-            _savedTodos.Clear();
+            using (var conn = new SqlConnection(_config.ConnectionString))
+            {
+                conn.Open();
+
+                conn.Execute(@"
+                    DELETE FROM [dbo].[Todo]");
+            }
         }
     }
 }
