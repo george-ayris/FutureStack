@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Consul;
@@ -91,17 +92,44 @@ namespace FutureStack.Api
 
         private Config GetConfig()
         {
-            var client = new ConsulClient(c => c.Address = new Uri(Environment.GetEnvironmentVariable("CONSUL_URL")));
-            var key1Task = client.KV.Get("web/key1");
-            var connectionStringTask = client.KV.Get("web/sqlConnectionString");
-            Task.WaitAll(key1Task, connectionStringTask);
+            Task<QueryResult<KVPair>> key1Task = null;
+            Task<QueryResult<KVPair>> connectionStringTask = null;
+            bool consulCallFailed = false;
+            try
+            {
+                var client = new ConsulClient(c => c.Address = new Uri(Environment.GetEnvironmentVariable("CONSUL_URL")));
+                key1Task = client.KV.Get("web/key1");
+                connectionStringTask = client.KV.Get("web/sqlConnectionString");
+                Task.WaitAll(key1Task, connectionStringTask);
+            }
+            catch 
+            {
+                consulCallFailed = true;
+            }
 
-            var key1 = Encoding.UTF8.GetString(key1Task.Result.Response.Value);
+            string key1;
+            if (!consulCallFailed && key1Task.Result.Response?.Value != null)
+            {
+                key1 = Encoding.UTF8.GetString(key1Task.Result.Response.Value);
+            }
+            else
+            {
+                key1 = "Cannot get info from consul";
+            }
 
-            var connectionFormatString = Encoding.UTF8.GetString(connectionStringTask.Result.Response.Value);
-            var sqlUserName = Environment.GetEnvironmentVariable("SQL_USERNAME");
-            var sqlPassword = Environment.GetEnvironmentVariable("SQL_PASSWORD");
-            var connectionString = string.Format(connectionFormatString, sqlUserName, sqlPassword);
+
+            string connectionString;
+            if (!consulCallFailed && connectionStringTask.Result.Response?.Value != null)
+            {
+                var connectionFormatString = Encoding.UTF8.GetString(connectionStringTask.Result.Response.Value);
+                var sqlUserName = Environment.GetEnvironmentVariable("SQL_USERNAME");
+                var sqlPassword = Environment.GetEnvironmentVariable("SQL_PASSWORD");
+                connectionString = string.Format(connectionFormatString, sqlUserName, sqlPassword);
+            }
+            else
+            {
+                connectionString = "Server=tcp:localhost,1433";
+            }
 
             return new Config(key1, connectionString);
         }
